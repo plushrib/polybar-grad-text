@@ -502,8 +502,7 @@ void manager::remove_client(const client& c) {
 void manager::remove_client(xcb_window_t win) {
   auto old_size = m_clients.size();
   m_clients.erase(
-      std::remove_if(m_clients.begin(), m_clients.end(), [win](const auto& client) { return client->match(win); }),
-      m_clients.end());
+      std::remove_if(m_clients.begin(), m_clients.end(), [win](const auto& client) { return client->match(win); }));
 
   if (old_size != m_clients.size()) {
     reconfigure();
@@ -519,8 +518,7 @@ void manager::remove_client(xcb_window_t win) {
  */
 void manager::clean_clients() {
   m_clients.erase(
-      std::remove_if(m_clients.begin(), m_clients.end(), [](const auto& client) { return client.get() == nullptr; }),
-      m_clients.end());
+      std::remove_if(m_clients.begin(), m_clients.end(), [](const auto& client) { return client.get() == nullptr; }));
 }
 
 bool manager::change_visibility(bool visible) {

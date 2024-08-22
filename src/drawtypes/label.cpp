@@ -82,15 +82,14 @@ namespace drawtypes {
 
     for (auto&& tok : m_tokens) {
       string repl{replacement};
-      size_t len = string_util::char_len(repl);
       if (token == tok.token) {
-        if (tok.max != 0_z && len > tok.max) {
+        if (tok.max != 0_z && string_util::char_len(repl) > tok.max) {
           repl = string_util::utf8_truncate(std::move(repl), tok.max) + tok.suffix;
-        } else if (tok.min != 0_z && len < tok.min) {
+        } else if (tok.min != 0_z && repl.length() < tok.min) {
           if (tok.rpadding) {
-            repl.append(tok.min - len, ' ');
+            repl.append(tok.min - repl.length(), ' ');
           } else {
-            repl.insert(0_z, tok.min - len, tok.zpad ? '0' : ' ');
+            repl.insert(0_z, tok.min - repl.length(), tok.zpad ? '0' : ' ');
           }
         }
 
